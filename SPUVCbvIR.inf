@@ -1,0 +1,336 @@
+; Localized     09/11/2019 15:00 (GMT+08:00) 3.5.27.3 SPUVCbvIR.inf
+; Video Capture Driver installation information 
+; Copyright (c) 2012-2019 Sunplus Innovation Tech 
+; Manufacturer: Sunplus Innovation Tech
+
+[OEMInf]
+VerifyMark="SunplusIT Camera"
+
+[Version]
+signature="$CHICAGO$"
+Class=Image
+ClassGUID={6bdd1fc6-810f-11d0-bec7-08002be2092f}
+Provider=%ProviderName%
+DriverVer=09/11/2019,3.5.27.3
+CatalogFile=SPUVCB.cat
+
+[CAMERA.DeviceData]
+Server=local
+UI DLL=sti.dll
+UI Class ID={5d8ef5a3-ac13-11d2-a093-00c04f72dc3c}
+
+[ControlFlags]
+ExcludeFromSelect=*
+
+[DestinationDirs]
+DefaultDestDir=11
+CAMERA.CopyDrivers32=12
+CAMERA.CopyDrivers64=12
+SPCoinstaller32=11
+SPCoinstaller64=11
+CAMERA.CopyFrameProvider=16426,Lenovo 500 Camera
+CAMERA.CopyFrameProvider64=16426,Lenovo 500 Camera
+
+[SourceDisksNames]
+1=%DiskName%,,,,
+
+[SourceDisksFiles]
+SPUVCbvEx.sys=1
+SPUVCbvEx64.sys=1
+SPCoInstEx.dll=1
+SPCoInstEx64.dll=1
+SPITProvider.dll=1
+SPITProvider_x64.dll=1
+msvcp140_32.dll=1
+msvcp140_64.dll=1
+vccorlib140_32.dll=1
+vccorlib140_64.dll=1
+vcruntime140_32.dll=1
+vcruntime140_64.dll=1
+
+; =================== Table of content =========================
+
+[Manufacturer]
+%SunplusIT.MfgName%=SunplusIT.Section,NTx86,NTx86.10.0...15063,NTamd64,NTamd64.10.0...15063
+
+; =================== Sunplus ==================================
+
+[SunplusIT.Section.NTx86]
+%CAMERA.DeviceDesc%=SPUVCb.Device,USB\VID_17EF&PID_482F&MI_02
+
+[SunplusIT.Section.NTx86.10.0...15063]
+%CAMERA.DeviceDesc%=SPUVCb.Device_RS2,USB\VID_17EF&PID_482F&MI_02
+
+[SunplusIT.Section.NTamd64]
+%CAMERA.DeviceDesc%=SPUVCb.Device_x64,USB\VID_17EF&PID_482F&MI_02
+
+[SunplusIT.Section.NTamd64.10.0...15063]
+%CAMERA.DeviceDesc%=SPUVCb.Device_RS2_x64,USB\VID_17EF&PID_482F&MI_02
+
+;==========================================================================
+; USB 2.0 Camera
+;==========================================================================
+[SPUVCB.Device.NT]
+Include=    ks.inf,kscaptur.inf,ksfilter.inf,sti.inf,machine.inf 
+Needs=      KS.Registration,KSCAPTUR.Registration.NT,PciD3ColdSupported
+AddReg=     SPUVCB.AddReg,SPUVCB_PROPERTY.AddReg,SPUVCB_FrameProvider.AddReg
+CopyFiles=  CAMERA.CopyDrivers32,CAMERA.CopyFrameProvider
+
+SubClass=StillImage
+DeviceType=3
+DeviceSubType=0x1
+Capabilities=0x00000031
+DeviceData=CAMERA.DeviceData
+ICMProfiles="sRGB Color Space Profile.icm"
+
+[SPUVCB.Device_RS2.NT]
+Include   = usbvideo.inf
+Needs     = usbvideo.NT
+DelReg=SPITProvider.DelReg
+
+[SPUVCB.Device_x64.ntamd64]
+Include=    ks.inf,kscaptur.inf,ksfilter.inf,sti.inf,machine.inf 
+Needs=      KS.Registration,KSCAPTUR.Registration.NT,PciD3ColdSupported
+AddReg=     SPUVCB64.AddReg,SPUVCB_PROPERTY.AddReg,SPUVCB_FrameProvider64.AddReg
+CopyFiles=  CAMERA.CopyDrivers64,CAMERA.CopyFrameProvider64
+
+SubClass=StillImage
+DeviceType=3
+DeviceSubType=0x1
+Capabilities=0x00000031
+DeviceData=CAMERA.DeviceData
+ICMProfiles="sRGB Color Space Profile.icm"
+
+[SPUVCB.Device_RS2_x64.ntamd64]
+Include   = usbvideo.inf
+Needs     = usbvideo.NT
+DelReg=SPITProvider.DelReg
+
+; --------------------------------------------------------------
+
+[SPUVCB.AddReg]
+HKR,,DevLoader,,*ntkern
+HKR,,NTMPDriver,,%DriverFullName%
+HKR,,PageOutWhenUnopened,3,00
+HKR,,DontSuspendIfStreamsAreRunning,3,01
+HKR,,HardwareConfig,1,1
+HKR,,USDClass,,"{0527d1d0-88c2-11d2-82c7-00c04f8ec183}"
+HKR,,OkToHibernate,3,01
+HKR,,UvcFlags,0x00010001,0x00000010
+
+[SPUVCB64.AddReg]
+HKR,,DevLoader,,*ntkern
+HKR,,NTMPDriver,,%DriverFullName64%
+HKR,,PageOutWhenUnopened,3,00
+HKR,,DontSuspendIfStreamsAreRunning,3,01
+HKR,,HardwareConfig,1,1
+HKR,,USDClass,,"{0527d1d0-88c2-11d2-82c7-00c04f8ec183}"
+HKR,,OkToHibernate,3,01
+HKR,,UvcFlags,0x00010001,0x00000010
+
+[SPUVCB_FrameProvider.AddReg]
+HKLM,Software\Microsoft\Analog\Providers,"FaceAuthenticationSourcesHint",0x10001,1
+HKLM,Software\Microsoft\Analog\Providers\SPITProvider,"ActivatableClass",0,"SunplusITFrameProvider.SunplusITFrameProviderManager"
+HKLM,Software\Microsoft\Analog\Providers\SPITProvider,"ModulePath",0x20000,"%16426%\Lenovo 500 Camera\SPITProvider.dll"
+
+[SPUVCB_FrameProvider64.AddReg]
+HKLM,Software\Microsoft\Analog\Providers,"FaceAuthenticationSourcesHint",0x10001,1
+HKLM,Software\Microsoft\Analog\Providers\SPITProvider,"ActivatableClass",0,"SunplusITFrameProvider.SunplusITFrameProviderManager"
+HKLM,Software\Microsoft\Analog\Providers\SPITProvider,"ModulePath",0x20000,"%16426%\Lenovo 500 Camera\SPITProvider_x64.dll"
+
+[SPUVCB_PROPERTY.AddReg]
+;Color Setting
+HKR,VIDEOPROCAMP,"AutoExposal",0x10001,1
+HKR,VIDEOPROCAMP,"AutoGain",0x10001,1
+HKR,VIDEOPROCAMP,"AutoWhiteBalance",0x10001,1
+HKR,VIDEOPROCAMP,"HFlip",0x10001,0
+HKR,VIDEOPROCAMP,"VFlip",0x10001,0
+;HKR,VIDEOPROCAMP,"Exposal",0x10001,-6
+HKR,VIDEOPROCAMP,"Gain",0x10001,0
+;HKR,VIDEOPROCAMP,"Whitebalance",0x10001,0
+;HKR,VIDEOPROCAMP,"BackLight",0x10001,0
+HKR,VIDEOPROCAMP,"LowLight",0x10001,255
+HKR,VIDEOPROCAMP,"Colorenable",0x10001,1
+
+[SPITProvider.DelReg]
+HKLM,"Software\Microsoft\Analog\Providers\SPITProvider"
+
+;----------------------------------------------------------------------------------
+
+[SPUVCB.Device.NT.Services]
+AddService = %DriverName%,0x00000002,SPUVCB.ServiceInstall
+
+[SPUVCB.Device_RS2.NT.Services]
+include     = usbvideo.inf
+needs       = USBVideo.NT.Services
+
+[SPUVCB.Device_x64.ntamd64.Services]
+AddService = %DriverName%,0x00000002,SPUVCB64.ServiceInstall
+
+[SPUVCB.Device_RS2_x64.ntamd64.Services]
+include     = usbvideo.inf
+needs       = USBVideo.NT.Services
+
+[SPUVCB.ServiceInstall]
+DisplayName   = %SPUVCb.ServiceName%
+ServiceType   = %SERVICE_KERNEL_DRIVER%
+StartType     = %SERVICE_DEMAND_START%  ;2002,4,11
+ErrorControl  = %SERVICE_ERROR_NORMAL%
+ServiceBinary = %10%\System32\Drivers\%DriverFullName%
+AddReg = SPUVCB.ServiceAddReg
+
+[SPUVCB64.ServiceInstall]
+DisplayName   = %SPUVCb.ServiceName%
+ServiceType   = %SERVICE_KERNEL_DRIVER%
+StartType     = %SERVICE_DEMAND_START%  ;2002,4,11
+ErrorControl  = %SERVICE_ERROR_NORMAL%
+ServiceBinary = %10%\System32\Drivers\%DriverFullName64%
+AddReg = SPUVCB.ServiceAddReg
+
+[SPUVCB.ServiceAddReg]
+HKR,"Param","ProductName",,%SPUVCb.ProductName%
+HKR,"Param","EnableSS",0x10001,1		;Selective suspend switch. 0: disable, others: enable
+
+;----------------------------------------------------------------------------------
+
+[SPUVCb.Device.NT.CoInstallers]
+CopyFiles = SPCoinstaller32
+AddReg = SPUVCb.CoInstaller_AddReg
+
+[SPUVCB.Device_x64.ntamd64.CoInstallers]
+CopyFiles = SPCoinstaller64
+AddReg = SPUVCb.CoInstaller64_AddReg
+
+[SPUVCb.Device_RS2.NT.CoInstallers]
+CopyFiles = SPCoinstaller32
+AddReg = SPUVCb.CoInstaller_AddReg
+
+[SPUVCB.Device_RS2_x64.ntamd64.CoInstallers]
+CopyFiles = SPCoinstaller64
+AddReg = SPUVCb.CoInstaller64_AddReg
+
+[SPUVCb.CoInstaller_AddReg]
+HKR,,CoInstallers32, 0x00010000, "SPCoInstEx.dll, SPCoInstaller"
+
+[SPUVCb.CoInstaller64_AddReg]
+HKR,,CoInstallers32, 0x00010000, "SPCoInstEx64.dll, SPCoInstaller"
+
+;----------------------------------------------------------------------------------
+
+[SPUVCB.Device.NT.HW]
+Include=machine.inf
+Needs=PciD3ColdSupported.HW
+AddReg = SPUVCB.HW.AddReg
+
+[SPUVCB.Device_RS2.NT.HW]
+Include = usbvideo.inf
+Needs = usbvideo.NT.HW
+AddReg = SPUVCB_RS2.HW.AddReg
+
+[SPUVCB.Device_x64.ntamd64.HW]
+Include=machine.inf
+Needs=PciD3ColdSupported.HW
+AddReg = SPUVCB.HW.AddReg
+
+[SPUVCB.Device_RS2_x64.ntamd64.HW]
+Include = usbvideo.inf
+Needs = usbvideo.NT.HW
+AddReg = SPUVCB_RS2.HW.AddReg
+
+[SPUVCB.HW.AddReg]
+HKR,,"FriendlyName",,%SPUVCB.Capture%
+
+[SPUVCB_RS2.HW.AddReg]
+HKR,,SensorCameraMode,0x00010001,00000001
+HKR,,SkipCameraEnumeration,0x00010001,00000001
+HKLM,%MSProvider%,FaceAuthenticationSourcesHint,0x00010001,0
+
+;----------------------------------------------------------------------------------
+
+[SPUVCB.Device.NT.Interfaces]
+AddInterface=%KSCATEGORY_CAPTURE%,"GLOBAL",SPUVCB.VideoCapture
+AddInterface=%KSCATEGORY_VIDEO%,"GLOBAL",SPUVCB.VideoCapture
+AddInterface=%KSCATEGORY_SENSOR_CAMERA%,"GLOBAL",SPUVCB.VideoCapture
+
+[SPUVCB.Device_RS2.NT.Interfaces]
+include     = usbvideo.inf
+needs       = USBVideo.NT.Interfaces
+AddInterface=%KSCATEGORY_SENSOR_CAMERA%,GLOBAL,SPUVCB.VideoCapture
+
+[SPUVCB.Device_x64.ntamd64.Interfaces]
+AddInterface=%KSCATEGORY_CAPTURE%,"GLOBAL",SPUVCB.VideoCapture
+AddInterface=%KSCATEGORY_VIDEO%,"GLOBAL",SPUVCB.VideoCapture
+AddInterface=%KSCATEGORY_SENSOR_CAMERA%,"GLOBAL",SPUVCB.VideoCapture
+
+[SPUVCB.Device_RS2_x64.ntamd64.Interfaces]
+include     = usbvideo.inf
+needs       = USBVideo.NT.Interfaces
+AddInterface=%KSCATEGORY_SENSOR_CAMERA%,GLOBAL,SPUVCB.VideoCapture
+
+[SPUVCB.VideoCapture]
+AddReg=SPUVCB.VideoCapture.AddReg
+
+[SPUVCB_RS2.VideoCapture]
+AddReg=SPUVCB_RS2.VideoCapture.AddReg
+
+[SPUVCB.VideoCapture.AddReg]
+HKR,,CLSID,,%ProxyVCap.CLSID%
+HKR,,FriendlyName,,%SPUVCB.Capture%
+HKR,,RTCFlags,0x00010001,0x00000010
+HKR,,FSSensorGroupID,,"{131FF57B-1F53-4963-860E-9F190063C2C8}"
+HKR,,FSSensorGroupName,,"SpitCameraGroup"
+
+; =================== Global ==================================
+
+[CAMERA.CopyDrivers32]
+SPUVCBvEx.sys
+
+[CAMERA.CopyDrivers64]
+SPUVCBvEx64.sys
+
+[SPCoinstaller32]
+SPCoInstEx.dll
+
+[SPCoinstaller64]
+SPCoInstEx64.dll
+
+[CAMERA.CopyFrameProvider]
+SPITProvider.dll
+msvcp140.dll,msvcp140_32.dll
+vccorlib140.dll,vccorlib140_32.dll
+vcruntime140.dll,vcruntime140_32.dll
+
+[CAMERA.CopyFrameProvider64]
+SPITProvider_x64.dll
+msvcp140.dll,msvcp140_64.dll
+vccorlib140.dll,vccorlib140_64.dll
+vcruntime140.dll,vcruntime140_64.dll
+
+;---------------------------------------------------------------
+
+[Strings]
+ProviderName=  "SunplusIT"
+SunplusIT.MfgName= "SunplusIT"
+DriverName=	 "SPUVCbvEx"
+DriverFullName=  "SPUVCbvEx.sys"
+DriverFullName64=  "SPUVCbvEx64.sys"
+DiskName=        "USB WebCam Driver Install Disk"
+
+CAMERA.DeviceDesc=  "Lenovo 500 IR Camera"
+SPUVCb.ServiceName = "SPUVCbEx Driver Service"
+SPUVCb.Capture=	    "Lenovo 500 IR Camera"
+SPUVCb.ProductName= "Sunplus SPUVCbEx"
+
+;Delete
+MsProvider=   "Software\Microsoft\Analog\Providers"
+
+;Non-Localizable
+SERVICE_KERNEL_DRIVER=1
+SERVICE_AUTO_START=2
+SERVICE_DEMAND_START=3
+SERVICE_ERROR_NORMAL=1
+
+ProxyVCap.CLSID="{17CCA71B-ECD7-11D0-B908-00A0C9223196}"
+KSCATEGORY_CAPTURE="{65E8773D-8F56-11D0-A3B9-00A0C9223196}"
+KSCATEGORY_VIDEO="{6994AD05-93EF-11D0-A3CC-00A0C9223196}"
+KSCATEGORY_SENSOR_CAMERA="{24E552D7-6523-47F7-A647-D3465BF1F5CA}"
